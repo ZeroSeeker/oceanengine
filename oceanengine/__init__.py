@@ -97,7 +97,7 @@ def business_bm_user_global_var(
 
 def business_bm_user_login_status(
         cookie: str,
-        csrf_token: str,
+        csrf_token: str = None,  # 非必传字段
         time_out: int = 5
 ):
     """
@@ -151,8 +151,9 @@ def business_bm_user_login_status(
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
-        "x-csrftoken": csrf_token
     }
+    if csrf_token is not None:
+        headers['x-csrftoken'] = csrf_token
     response = requests.request(
         method='GET',
         url=url,
@@ -871,3 +872,10 @@ def ad_promote_ad_list(
         timeout=time_out
     )
     return response.json()
+
+
+if __name__ == '__main__':
+    res = business_bm_user_login_status(
+        cookie='ttcid=958b4dae89324711b9b8cb7ba4db282d34; sid_guard=47c862e91ade6beb3d5fa334d3137e1e%7C1647226965%7C5183999%7CFri%2C+13-May-2022+03%3A02%3A44+GMT; gr_user_id=bda0154d-6ddd-4c07-8f2f-2f64dcd6e587; grwng_uid=e3ef8177-448b-4f21-9f84-f6b4e48dc8d0; aefa4e5d2593305f_gr_last_sent_cs1=1697633742897166; tt_scid=xAV5eppMbIV4UAlnuQtPIcqhTkBX-FQnmAqrz--a0.bGTHyniU.YzRK-THqa.Ygi15d0; passport_csrf_token=a2dc43426a9479ad5742e2145adfce4d; passport_csrf_token_default=a2dc43426a9479ad5742e2145adfce4d; msToken=jnZ1xtVYNaYCbND5DrI4FG6kDdzOgz8GnHJ4Je1LeAalmeiWdUTAJaU0uQcnijSHytaNrYH9ibcz_cgtVvBFPJZIFPC5TLNHlB7ox9b0xHoJ; n_mh=9-mIeuD4wZnlYrrOvfzG3MuT6aQmCUtmr8FxV8Kl8xY; sso_uid_tt=9036ffa28a22b090d2fb959e6d861b1e; sso_uid_tt_ss=9036ffa28a22b090d2fb959e6d861b1e; toutiao_sso_user=8966e74ee6f7d5273a76b54584a54292; toutiao_sso_user_ss=8966e74ee6f7d5273a76b54584a54292; sid_ucp_sso_v1=1.0.0-KDFmOGQ4ZDVhOGIyOGQ3NjQ2YWQ3MzJkNmY5YTJiMGE3OWY0YTQ1YmIKFwit-qDFnI2yBBDU4LqRBhj6CjgBQOsHGgJsZiIgODk2NmU3NGVlNmY3ZDUyNzNhNzZiNTQ1ODRhNTQyOTI; ssid_ucp_sso_v1=1.0.0-KDFmOGQ4ZDVhOGIyOGQ3NjQ2YWQ3MzJkNmY5YTJiMGE3OWY0YTQ1YmIKFwit-qDFnI2yBBDU4LqRBhj6CjgBQOsHGgJsZiIgODk2NmU3NGVlNmY3ZDUyNzNhNzZiNTQ1ODRhNTQyOTI; uid_tt=b1653ee8d39a7a59bcc6d5a19b323f7b; uid_tt_ss=b1653ee8d39a7a59bcc6d5a19b323f7b; sid_tt=47c862e91ade6beb3d5fa334d3137e1e; sessionid=47c862e91ade6beb3d5fa334d3137e1e; sessionid_ss=47c862e91ade6beb3d5fa334d3137e1e; sid_ucp_v1=1.0.0-KGNhYzk3NmRiYzQwYmE1ZTZlMTVhZjIyNDcyMDVjYzVmN2RlMmU0OGYKFwit-qDFnI2yBBDV4LqRBhj6CjgBQOsHGgJobCIgNDdjODYyZTkxYWRlNmJlYjNkNWZhMzM0ZDMxMzdlMWU; ssid_ucp_v1=1.0.0-KGNhYzk3NmRiYzQwYmE1ZTZlMTVhZjIyNDcyMDVjYzVmN2RlMmU0OGYKFwit-qDFnI2yBBDV4LqRBhj6CjgBQOsHGgJobCIgNDdjODYyZTkxYWRlNmJlYjNkNWZhMzM0ZDMxMzdlMWU; MONITOR_WEB_ID=2472156477275437; _tea_utm_cache_1192=undefined; csrftoken=-b4882PzUkQWtluyS-XjfDPm; gftoken=NDdjODYyZTkxYXwxNjQ3MjI3ODI1OTR8fDAGBgYGBgY; s_v_web_id=verify_l0q4x2q3_uZzEeXPt_w73R_450i_AknZ_wnCdakZvTkaR; trace_log_adv_id=undefined; trace_log_user_id=2472156477275437; aefa4e5d2593305f_gr_cs1=1697633742897166'
+    )
+    print(res)
