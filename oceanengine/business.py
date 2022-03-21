@@ -495,3 +495,97 @@ def business_bp_statistics_promote_ad_stats_list(
         timeout=time_out
     )
     return response.json()
+
+
+def bp_statistics_promote_advertiser_stats_list(
+        cookie: str,
+        csrf_token: str,
+        page: int = 1,
+        limit: int = 10,  # 10 20 50 100
+        time_out: int = 5,
+        start_time: datetime = time_box.get_relative_datetime(0),
+        end_time: datetime = time_box.get_relative_datetime(1),
+        order_field: str = None,
+        order_type: int = None,
+        cascade_fields: list = None,
+        stats_fields: list = None,
+        filter_dict: dict = None
+
+):
+    """
+    主账号
+    【巨量广告】-【推广】-【账户】
+    :param cookie
+    :param csrf_token
+    :param page 页码，默认为1
+    :param limit 每页数量，默认为10
+    :param time_out 超时时间，单位为秒，默认为5
+    :param start_time 开始时间，默认为当日0点
+    :param end_time 结束时间，默认为次日0点
+    :param order_field 排序列，默认为stat_cost
+    :param order_type 排序方式：默认为1，降序
+    :param cascade_fields 属性设置
+    :param stats_fields 基础指标
+    :param filter_dict 筛选条件
+    """
+    if order_field is None:
+        order_field = 'stat_cost'  # 默认按照消耗排序
+    if order_type is None:
+        order_type = 1  # 默认降序，0:升序，1:降序
+    if cascade_fields is None:
+        cascade_fields = [
+            'advertiser_id',  # 账户设置-账户ID
+            'advertiser_agent_id',  # 账户设置-代理商ID
+            'advertiser_followed',  # 【关注】【默认】，页面上的心️形关注点
+            'group_id'  # 广告组设置-广告组ID【默认】
+        ]  # 属性设置
+    if stats_fields is None:
+        stats_fields = [
+            'stat_cost',  # 展现数据-消耗
+            'convert_cnt',  # 转化数据-转化数
+        ]  # 基础指标
+    if filter_dict is None:
+        filter_dict = {
+            "advertiser": {},
+            "campaign": {},
+            "ad": {},
+            "group": {}
+        }  # 筛选条件
+
+    url = "https://business.oceanengine.com/platform/api/v1/bp/statistics/promote/advertiser/stats_list/"
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+        # "Connection": "keep-alive",
+        "Content-Type": "application/json;charset=utf-8",
+        "Cookie": cookie,
+        "Host": "business.oceanengine.com",
+        "Origin": "https://business.oceanengine.com",
+        "Referer": "https://business.oceanengine.com/site/promotion?",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "TE": "trailers",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0",
+        "X-CSRFToken": csrf_token,
+    }
+    data = {
+        "start_time": str(start_time),  # 2022-03-21 00:00:00
+        "end_time": str(end_time),  # 2022-03-22 00:00:00
+        "page": page,  # 页码
+        "limit": limit,  # 每页数量
+        "order_field": order_field,  # 排序列
+        "order_type": order_type,  # 排序方式
+        "cascade_fields": cascade_fields,
+        "stats_fields": stats_fields,
+        "filter": filter_dict
+    }
+    response = requests.request(
+        method='POST',
+        url=url,
+        headers=headers,
+        json=data,
+        timeout=time_out
+    )
+    return response.json()
