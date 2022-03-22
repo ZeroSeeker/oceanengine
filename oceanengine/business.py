@@ -503,14 +503,13 @@ def bp_statistics_promote_advertiser_stats_list(
         page: int = 1,
         limit: int = 10,  # 10 20 50 100
         time_out: int = 5,
-        start_time: str = time_box.get_relative_datetime(0),
-        end_time: str = time_box.get_relative_datetime(1),
+        start_time: str = None,
+        end_time: str = None,
         order_field: str = None,
         order_type: int = None,
         cascade_fields: list = None,
         stats_fields: list = None,
         filter_dict: dict = None
-
 ):
     """
     主账号
@@ -528,6 +527,10 @@ def bp_statistics_promote_advertiser_stats_list(
     :param stats_fields 基础指标
     :param filter_dict 筛选条件
     """
+    if start_time is None:
+        start_time = time_box.get_relative_datetime(0)
+    if end_time is None:
+        end_time = time_box.get_relative_datetime(1)
     if order_field is None:
         order_field = 'stat_cost'  # 默认按照消耗排序
     if order_type is None:
