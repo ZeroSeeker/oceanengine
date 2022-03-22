@@ -503,8 +503,8 @@ def bp_statistics_promote_advertiser_stats_list(
         page: int = 1,
         limit: int = 10,  # 10 20 50 100
         time_out: int = 5,
-        start_time: datetime = time_box.get_relative_datetime(0),
-        end_time: datetime = time_box.get_relative_datetime(1),
+        start_time: str = time_box.get_relative_datetime(0),
+        end_time: str = time_box.get_relative_datetime(1),
         order_field: str = None,
         order_type: int = None,
         cascade_fields: list = None,
@@ -571,8 +571,8 @@ def bp_statistics_promote_advertiser_stats_list(
         "X-CSRFToken": csrf_token,
     }
     data = {
-        "start_time": str(start_time),  # 2022-03-21 00:00:00
-        "end_time": str(end_time),  # 2022-03-22 00:00:00
+        "start_time": start_time,  # 2022-03-21 00:00:00
+        "end_time": end_time,  # 2022-03-22 00:00:00
         "page": page,  # 页码
         "limit": limit,  # 每页数量
         "order_field": order_field,  # 排序列
