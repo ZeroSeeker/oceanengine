@@ -27,6 +27,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'requests==2.27.1'
+        'requests==2.27.1',
+        'time_box==0.0.4'
     ]
 )
