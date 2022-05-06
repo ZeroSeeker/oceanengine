@@ -69,7 +69,7 @@ def e_fund_report(
     return response.json()
 
 
-def get_all(
+def e_fund_report_all(
         cookie,
         aadvid,
         csrf_token,
