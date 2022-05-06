@@ -13,11 +13,11 @@ with open("README.md", "r", encoding='utf-8') as fh:
 
 setuptools.setup(
     name="oceanengine",
-    version="0.0.4",
+    version="0.0.5",
     author="ZeroSeeker",
     author_email="zeroseeker@foxmail.com",
     description="make it easy to use oceanengine",
-    long_description=long_description,
+    # long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://gitee.com/ZeroSeeker/oceanengine",
     packages=setuptools.find_packages(),
@@ -28,6 +28,6 @@ setuptools.setup(
     ],
     install_requires=[
         'requests==2.27.1',
-        'time_box==0.0.4'
+        'time_box==0.0.8'
     ]
 )
