@@ -106,11 +106,11 @@ def e_fund_report_all(
         if res_temp is None:
             return
         else:
-            code = res_temp.e_fund_report('code')
+            code = res_temp.get('code')
             if code == 0:
-                data = res_temp.e_fund_report('data')
-                total_count = data.e_fund_report('total_count')
-                advertiser_account = data.e_fund_report('advertiser_account')
+                data = res_temp.get('data')
+                total_count = data.get('total_count')
+                advertiser_account = data.get('advertiser_account')
                 res_all.extend(advertiser_account)
                 if len(res_all) >= total_count:
                     return res_all
