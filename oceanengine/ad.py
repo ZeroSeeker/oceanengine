@@ -9,6 +9,9 @@
 import requests
 import time_box
 import datetime
+import showlog
+import time
+from .my_requests import my_requests
 
 
 def ad_promote_ad_list(
@@ -381,3 +384,42 @@ def ad_get_account_and_balance_list(
         timeout=time_out
     )
     return response.json()
+
+
+def ad_overture_discount(
+        cookie,
+        aadvid,
+        timeout: int = 5,
+        timeout_retry: bool = True
+):
+    """
+    【财务-活动与赠款-已获赠款】
+    精确到子账户
+    :param cookie:
+    :param aadvid:
+    :param timeout: 超时时间，单位为秒
+    :param timeout_retry: 超时重试
+
+    """
+    method = 'GET'
+    url = "https://ad.oceanengine.com/overture/discount/api/coupon/?aadvid=%s" % aadvid
+    headers = {
+        "accept": "application/json, text/javascript, */*; q=0.01",
+        "accept-encoding": "gzip, deflate",
+        "accept-language": "zh-CN,zh;q=0.9",
+        "cookie": cookie,
+        "referer": "https://ad.oceanengine.com/overture/discount/coupon/?aadvid=%s" % aadvid,
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+        "x-requested-with": "XMLHttpRequest"
+    }
+    response = my_requests(
+        method=method,
+        url=url,
+        headers=headers,
+        timeout=timeout,
+        timeout_retry=timeout_retry
+    )
+    return response.json()
+
