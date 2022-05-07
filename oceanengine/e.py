@@ -6,6 +6,7 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
+import time
 import requests
 import json
 
@@ -18,7 +19,8 @@ def e_fund_report(
         end_time: int,
         limit: int = 10,
         offset: int = 0,  # 后移位数
-        time_out: int = 5,
+        timeout: int = 5,
+        timeout_retry: bool = True
 ):
     """
     模块功能：采集【财务-资金管理-财务流水】的数据
@@ -32,8 +34,8 @@ def e_fund_report(
     :param end_time: 结束时间的时间戳，精确到秒
     :param limit
     :param offset: 偏移量
-    :param time_out: 超时时间，单位为秒
-
+    :param timeout: 超时时间，单位为秒
+    :param timeout_retry: 超时重试
     """
     url = "https://e.oceanengine.com/fund_report/api/central/expanditure?appKey=0"
     headers = {
@@ -58,15 +60,28 @@ def e_fund_report(
         'offset': offset,  # 后移位数
         'start_time': start_time,  # 开始日期 timestamp
     }
-    response = requests.request(
-        method='POST',
-        url=url,
-        headers=headers,
-        data=json.dumps(data),
-        allow_redirects=False,
-        timeout=time_out
-    )
-    return response.json()
+    while True:
+        if timeout_retry is True:
+            try:
+                response = requests.request(
+                    method='POST',
+                    url=url,
+                    headers=headers,
+                    data=json.dumps(data),
+                    timeout=timeout
+                )
+                return response.json()
+            except requests.exceptions.ReadTimeout:
+                time.sleep(1)
+        else:
+            response = requests.request(
+                method='POST',
+                url=url,
+                headers=headers,
+                data=json.dumps(data),
+                timeout=timeout
+            )
+            return response.json()
 
 
 def e_fund_report_all(
@@ -76,7 +91,8 @@ def e_fund_report_all(
         start_time: int,
         end_time: int,
         limit: int = 10,
-        time_out: int = 5
+        time_out: int = 5,
+        timeout_retry: bool = True
 ):
     """
     一次获取全部数据
@@ -88,7 +104,7 @@ def e_fund_report_all(
     :param end_time: 结束时间的时间戳，精确到秒
     :param limit
     :param time_out: 超时时间，单位为秒
-
+    :param timeout_retry: 超时重试
     """
     offset = 0
     res_all = list()
@@ -101,7 +117,8 @@ def e_fund_report_all(
             end_time=end_time,
             limit=limit,
             offset=offset,
-            time_out=time_out
+            timeout=time_out,
+            timeout_retry=timeout_retry
         )
         if res_temp is None:
             return
