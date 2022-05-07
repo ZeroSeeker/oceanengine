@@ -28,6 +28,7 @@ setuptools.setup(
     ],
     install_requires=[
         'requests==2.27.1',
-        'time_box==0.0.9'
+        'time_box==0.0.9',
+        'showlog==0.0.6'
     ]
 )

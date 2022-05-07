@@ -6,9 +6,10 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
-import time
 import requests
+import showlog
 import json
+import time
 
 
 def e_fund_report(
@@ -72,6 +73,7 @@ def e_fund_report(
                 )
                 return response.json()
             except requests.exceptions.ReadTimeout:
+                showlog.warning('连接超时，将在1秒后重试...')
                 time.sleep(1)
         else:
             response = requests.request(
