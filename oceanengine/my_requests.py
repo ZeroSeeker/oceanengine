@@ -23,12 +23,11 @@ def my_requests(
     while True:
         if timeout_retry is True:
             try:
-                response = requests.request(
+                return requests.request(
                     method=method,
                     url=url,
                     **kwargs
                 )
-                return response.json()
             except requests.exceptions.ReadTimeout:
                 showlog.warning('连接超时，将在1秒后重试...')
                 time.sleep(1)
