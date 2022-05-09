@@ -48,6 +48,7 @@ def requests_json(
 ):
     """
     timeout_retry: 超时重试，为True会自动重试，否则不会自动重试
+    json_error_retry：返回类型为非json重试，为True会自动重试，否则不会自动重试
     """
     while True:
         try:
