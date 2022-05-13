@@ -11,7 +11,7 @@ import time_box
 import datetime
 import showlog
 import time
-from .my_requests import my_requests
+from . import my_requests
 
 
 def ad_promote_ad_list(
@@ -390,7 +390,8 @@ def ad_overture_discount(
         cookie,
         aadvid,
         timeout: int = 5,
-        timeout_retry: bool = True
+        timeout_retry: bool = True,
+        json_error_retry: bool = True
 ):
     """
     【财务-活动与赠款-已获赠款】
@@ -399,7 +400,7 @@ def ad_overture_discount(
     :param aadvid:
     :param timeout: 超时时间，单位为秒
     :param timeout_retry: 超时重试
-
+    :param json_error_retry: 返回json错误重试
     """
     method = 'GET'
     url = "https://ad.oceanengine.com/overture/discount/api/coupon/?aadvid=%s" % aadvid
@@ -414,12 +415,40 @@ def ad_overture_discount(
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
         "x-requested-with": "XMLHttpRequest"
     }
-    response = my_requests(
+    response = my_requests.requests_json(
         method=method,
         url=url,
         headers=headers,
         timeout=timeout,
-        timeout_retry=timeout_retry
+        timeout_retry=timeout_retry,
+        json_error_retry=json_error_retry
     )
     return response.json()
+
+
+def notification_msg_list(
+        cookie,
+        aadvid,
+        page: int = 1
+):
+    """
+    巨量引擎-消息中心-消息列表 财务消息
+    """
+    method = 'GET'
+    url = f"https://ad.oceanengine.com/platform/api/v1/notification/msg_list/?page={page}&msg_category=0&limit=10&aadvid={aadvid}"
+    headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.9",
+        "Cookie": cookie,
+        "upgrade-insecure-requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0",
+    }
+    response = my_requests.lazy_requests(
+        method=method,
+        url=url,
+        headers=headers,
+        return_json=True
+    )
+    return response
 
