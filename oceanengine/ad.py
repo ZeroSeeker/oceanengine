@@ -429,7 +429,15 @@ def ad_overture_discount(
 def notification_msg_list(
         cookie,
         aadvid,
-        page: int = 1
+        page: int = 1,
+
+        retry_delay: int = 1,  # 重试延时
+        retry_limit: int = -1,  # 重试次数限制，-1为无限制
+        return_json: bool = True,  # 是否返回json数据
+
+        ReadTimeout_retry: bool = True,  # 超时重试
+        JSONDecodeError_retry: bool = True,  # 返回非json类型重试
+        ConnectionError_retry: bool = True,  # 连接错误重试
 ):
     """
     巨量引擎-消息中心-消息列表 财务消息
@@ -448,7 +456,14 @@ def notification_msg_list(
         method=method,
         url=url,
         headers=headers,
-        return_json=True
+
+        retry_delay=retry_delay,
+        retry_limit=retry_limit,
+        return_json=return_json,
+
+        ReadTimeout_retry=ReadTimeout_retry,
+        JSONDecodeError_retry=JSONDecodeError_retry,
+        ConnectionError_retry=ConnectionError_retry
     )
     return response
 
