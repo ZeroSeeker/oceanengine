@@ -6,12 +6,9 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
-import requests
 import time_box
 import datetime
-import showlog
-import time
-from . import my_requests
+import lazysdk
 
 
 def ad_promote_ad_list(
@@ -350,15 +347,14 @@ def ad_promote_ad_list(
         ],
 
     }
-    response = requests.request(
+    return lazysdk.lazyrequests.lazy_requests(
         method='POST',
         url=url,
         headers=headers,
         json=data,
-        allow_redirects=False,
-        timeout=time_out
+        timeout=time_out,
+        return_json=True
     )
-    return response.json()
 
 
 def ad_get_account_and_balance_list(
@@ -376,14 +372,13 @@ def ad_get_account_and_balance_list(
         "Cookie": cookie,
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
     }
-    response = requests.request(
+    return lazysdk.lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
-        allow_redirects=False,
-        timeout=time_out
+        timeout=time_out,
+        return_json=True
     )
-    return response.json()
 
 
 def ad_overture_discount(
@@ -420,7 +415,7 @@ def ad_overture_discount(
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
         "x-requested-with": "XMLHttpRequest"
     }
-    return my_requests.lazy_requests(
+    return lazysdk.lazyrequests.lazy_requests(
         method=method,
         url=url,
         headers=headers,
@@ -462,7 +457,7 @@ def notification_msg_list(
         "upgrade-insecure-requests": "1",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0",
     }
-    return my_requests.lazy_requests(
+    return lazysdk.lazyrequests.lazy_requests(
         method=method,
         url=url,
         headers=headers,

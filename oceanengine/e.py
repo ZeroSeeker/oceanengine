@@ -6,10 +6,8 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
-import requests
-import showlog
+import lazysdk
 import json
-import time
 
 
 def e_fund_report(
@@ -61,29 +59,15 @@ def e_fund_report(
         'offset': offset,  # 后移位数
         'start_time': start_time,  # 开始日期 timestamp
     }
-    while True:
-        if timeout_retry is True:
-            try:
-                response = requests.request(
-                    method='POST',
-                    url=url,
-                    headers=headers,
-                    data=json.dumps(data),
-                    timeout=timeout
-                )
-                return response.json()
-            except requests.exceptions.ReadTimeout:
-                showlog.warning('连接超时，将在1秒后重试...')
-                time.sleep(1)
-        else:
-            response = requests.request(
-                method='POST',
-                url=url,
-                headers=headers,
-                data=json.dumps(data),
-                timeout=timeout
-            )
-            return response.json()
+    response = lazysdk.lazyrequests.lazy_requests(
+        method='POST',
+        url=url,
+        headers=headers,
+        data=json.dumps(data),
+        timeout=timeout,
+        return_json=True
+    )
+    return response
 
 
 def e_fund_report_all(
