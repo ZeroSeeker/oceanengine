@@ -6,7 +6,7 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
-import requests
+from lazysdk import lazyrequests
 import time_box
 import datetime
 
@@ -81,7 +81,7 @@ def business_bm_user_global_var(
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0",
         "x-csrftoken": csrf_token
     }
-    response = requests.request(
+    response = lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
@@ -149,7 +149,7 @@ def business_bm_user_login_status(
     }
     if csrf_token is not None:
         headers['x-csrftoken'] = csrf_token
-    response = requests.request(
+    response = lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
@@ -215,7 +215,7 @@ def business_bm_dashboard_accounts_list(
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0",
         "X-CSRFToken": csrf_token,
     }
-    response = requests.request(
+    response = lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
@@ -486,7 +486,7 @@ def business_bp_statistics_promote_ad_stats_list(
             }
         }
     }
-    response = requests.request(
+    response = lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
@@ -584,7 +584,7 @@ def bp_statistics_promote_advertiser_stats_list(
         "stats_fields": stats_fields,
         "filter": filter_dict
     }
-    response = requests.request(
+    response = lazyrequests.lazy_requests(
         method='POST',
         url=url,
         headers=headers,
