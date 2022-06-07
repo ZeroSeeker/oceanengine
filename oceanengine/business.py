@@ -514,18 +514,18 @@ def bp_statistics_promote_advertiser_stats_list(
     """
     主账号
     【巨量广告】-【推广】-【账户】
-    :param cookie
-    :param csrf_token
-    :param page 页码，默认为1
-    :param limit 每页数量，默认为10
-    :param time_out 超时时间，单位为秒，默认为5
-    :param start_time 开始时间，默认为当日0点
-    :param end_time 结束时间，默认为次日0点
-    :param order_field 排序列，默认为stat_cost
-    :param order_type 排序方式：默认为1，降序
-    :param cascade_fields 属性设置
-    :param stats_fields 基础指标
-    :param filter_dict 筛选条件
+    :param cookie:
+    :param csrf_token:
+    :param page: 页码，默认为1
+    :param limit: 每页数量，默认为10
+    :param time_out: 超时时间，单位为秒，默认为5
+    :param start_time: 开始时间，默认为当日0点，例如：2022-03-21 00:00:00
+    :param end_time: 结束时间，默认为次日0点，例如：2022-03-22 00:00:00
+    :param order_field: 排序列，默认为stat_cost
+    :param order_type: 排序方式：默认为1，降序
+    :param cascade_fields: 属性设置
+    :param stats_fields: 基础指标
+    :param filter_dict: 筛选条件
     """
     if start_time is None:
         start_time = time_box.get_relative_datetime(0)

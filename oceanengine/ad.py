@@ -6,7 +6,7 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
-import time_box
+from lazysdk import lazytime
 import datetime
 import lazysdk
 
@@ -18,8 +18,8 @@ def ad_promote_ad_list(
         page: int = 1,
         limit: int = 20,
         time_out: int = 5,
-        start_time: datetime.date = time_box.get_relative_date(0),
-        end_time: datetime.date = time_box.get_relative_date(0),
+        start_time: datetime.date = lazytime.get_relative_date(0),
+        end_time: datetime.date = lazytime.get_relative_date(0),
         sort_stat: str = 'create_time',
         sort_order: int = 1
 ):
@@ -435,6 +435,7 @@ def notification_msg_list(
         cookie,
         aadvid,
         page: int = 1,
+        timeout=5,
 
         retry_delay: int = 1,  # 重试延时
         retry_limit: int = -1,  # 重试次数限制，-1为无限制
@@ -461,6 +462,7 @@ def notification_msg_list(
         method=method,
         url=url,
         headers=headers,
+        timeout=timeout,
 
         retry_delay=retry_delay,
         retry_limit=retry_limit,
