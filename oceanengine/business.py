@@ -7,7 +7,7 @@
 @ Gitee : https://gitee.com/ZeroSeeker
 """
 from lazysdk import lazyrequests
-import time_box
+from lazysdk import lazytime
 import datetime
 
 
@@ -85,9 +85,10 @@ def business_bm_user_global_var(
         method='GET',
         url=url,
         headers=headers,
-        timeout=time_out
+        timeout=time_out,
+        return_json=True
     )
-    return response.json()
+    return response
 
 
 def business_bm_user_login_status(
@@ -153,9 +154,10 @@ def business_bm_user_login_status(
         method='GET',
         url=url,
         headers=headers,
-        timeout=time_out
+        timeout=time_out,
+        return_json=True
     )
-    return response.json()
+    return response
 
 
 def business_bm_user_id(
@@ -220,9 +222,10 @@ def business_bm_dashboard_accounts_list(
         url=url,
         headers=headers,
         allow_redirects=False,
-        timeout=time_out
+        timeout=time_out,
+        return_json=True
     )
-    return response.json()
+    return response
 
 
 def business_bp_statistics_promote_ad_stats_list(
@@ -231,8 +234,8 @@ def business_bp_statistics_promote_ad_stats_list(
         page: int = 1,
         limit: int = 20,
         time_out: int = 5,
-        start_time: datetime = time_box.get_relative_datetime(0),
-        end_time: datetime = time_box.get_relative_datetime(1),
+        start_time: datetime = lazytime.get_relative_datetime(0),
+        end_time: datetime = lazytime.get_relative_datetime(1),
 ):
     """
     主账号
@@ -492,9 +495,10 @@ def business_bp_statistics_promote_ad_stats_list(
         headers=headers,
         json=data,
         allow_redirects=False,
-        timeout=time_out
+        timeout=time_out,
+        return_json=True
     )
-    return response.json()
+    return response
 
 
 def bp_statistics_promote_advertiser_stats_list(
@@ -528,9 +532,9 @@ def bp_statistics_promote_advertiser_stats_list(
     :param filter_dict: 筛选条件
     """
     if start_time is None:
-        start_time = time_box.get_relative_datetime(0)
+        start_time = lazytime.get_datetime_relative(0)
     if end_time is None:
-        end_time = time_box.get_relative_datetime(1)
+        end_time = lazytime.get_datetime_relative(1)
     if order_field is None:
         order_field = 'stat_cost'  # 默认按照消耗排序
     if order_type is None:
@@ -589,6 +593,7 @@ def bp_statistics_promote_advertiser_stats_list(
         url=url,
         headers=headers,
         json=data,
-        timeout=time_out
+        timeout=time_out,
+        return_json=True
     )
-    return response.json()
+    return response
