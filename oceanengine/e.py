@@ -77,7 +77,7 @@ def e_fund_report_all(
         start_time: int,
         end_time: int,
         limit: int = 10,
-        time_out: int = 5,
+        timeout: int = 5,
         timeout_retry: bool = True
 ):
     """
@@ -89,7 +89,7 @@ def e_fund_report_all(
     :param start_time: 开始时间的时间戳，精确到秒
     :param end_time: 结束时间的时间戳，精确到秒
     :param limit
-    :param time_out: 超时时间，单位为秒
+    :param timeout: 超时时间，单位为秒
     :param timeout_retry: 超时重试
     """
     offset = 0
@@ -103,7 +103,7 @@ def e_fund_report_all(
             end_time=end_time,
             limit=limit,
             offset=offset,
-            timeout=time_out,
+            timeout=timeout,
             timeout_retry=timeout_retry
         )
         if res_temp is None:

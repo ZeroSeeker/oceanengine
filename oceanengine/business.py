@@ -14,7 +14,7 @@ import datetime
 def business_bm_user_global_var(
         cookie: str,
         csrf_token: str,
-        time_out: int = 5
+        timeout: int = 5
 ):
     """
     【设置】
@@ -85,7 +85,7 @@ def business_bm_user_global_var(
         method='GET',
         url=url,
         headers=headers,
-        timeout=time_out,
+        timeout=timeout,
         return_json=True
     )
     return response
@@ -94,7 +94,7 @@ def business_bm_user_global_var(
 def business_bm_user_login_status(
         cookie: str,
         csrf_token: str = None,  # 非必传字段
-        time_out: int = 5
+        timeout: int = 5
 ):
     """
     大账号
@@ -154,7 +154,7 @@ def business_bm_user_login_status(
         method='GET',
         url=url,
         headers=headers,
-        timeout=time_out,
+        timeout=timeout,
         return_json=True
     )
     return response
@@ -163,7 +163,7 @@ def business_bm_user_login_status(
 def business_bm_user_id(
         cookie: str,
         csrf_token: str,
-        time_out: int = 5
+        timeout: int = 5
 ):
     """
     直接获取user_id
@@ -171,7 +171,7 @@ def business_bm_user_id(
     bm_user_login_status_res = business_bm_user_login_status(
         cookie=cookie,
         csrf_token=csrf_token,
-        time_out=time_out
+        timeout=timeout
     )
     if bm_user_login_status_res['code'] == 0:
         data = bm_user_login_status_res.get('data')
@@ -194,7 +194,7 @@ def business_bm_dashboard_accounts_list(
         csrf_token: str,
         page: int = 1,
         limit: int = 20,
-        time_out: int = 5
+        timeout: int = 5
 ):
     """
     大账号
@@ -222,7 +222,7 @@ def business_bm_dashboard_accounts_list(
         url=url,
         headers=headers,
         allow_redirects=False,
-        timeout=time_out,
+        timeout=timeout,
         return_json=True
     )
     return response
@@ -233,7 +233,7 @@ def business_bp_statistics_promote_ad_stats_list(
         csrf_token: str,
         page: int = 1,
         limit: int = 20,
-        time_out: int = 5,
+        timeout: int = 5,
         start_time: datetime = lazytime.get_relative_datetime(0),
         end_time: datetime = lazytime.get_relative_datetime(1),
 ):
@@ -495,7 +495,7 @@ def business_bp_statistics_promote_ad_stats_list(
         headers=headers,
         json=data,
         allow_redirects=False,
-        timeout=time_out,
+        timeout=timeout,
         return_json=True
     )
     return response
@@ -506,7 +506,7 @@ def bp_statistics_promote_advertiser_stats_list(
         csrf_token: str,
         page: int = 1,
         limit: int = 10,  # 10 20 50 100
-        time_out: int = 5,
+        timeout: int = 5,
         start_time: str = None,
         end_time: str = None,
         order_field: str = None,
@@ -522,7 +522,7 @@ def bp_statistics_promote_advertiser_stats_list(
     :param csrf_token:
     :param page: 页码，默认为1
     :param limit: 每页数量，默认为10
-    :param time_out: 超时时间，单位为秒，默认为5
+    :param timeout: 超时时间，单位为秒，默认为5
     :param start_time: 开始时间，默认为当日0点，例如：2022-03-21 00:00:00
     :param end_time: 结束时间，默认为次日0点，例如：2022-03-22 00:00:00
     :param order_field: 排序列，默认为stat_cost
@@ -593,7 +593,7 @@ def bp_statistics_promote_advertiser_stats_list(
         url=url,
         headers=headers,
         json=data,
-        timeout=time_out,
+        timeout=timeout,
         return_json=True
     )
     return response

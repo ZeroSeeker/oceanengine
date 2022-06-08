@@ -6,9 +6,9 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
+from lazysdk import lazyrequests
 from lazysdk import lazytime
 import datetime
-import lazysdk
 
 
 def ad_promote_ad_list(
@@ -17,7 +17,7 @@ def ad_promote_ad_list(
         csrf_token: str,
         page: int = 1,
         limit: int = 20,
-        time_out: int = 5,
+        timeout: int = 5,
         start_time: datetime.date = lazytime.get_relative_date(0),
         end_time: datetime.date = lazytime.get_relative_date(0),
         sort_stat: str = 'create_time',
@@ -347,12 +347,12 @@ def ad_promote_ad_list(
         ],
 
     }
-    return lazysdk.lazyrequests.lazy_requests(
+    return lazyrequests.lazy_requests(
         method='POST',
         url=url,
         headers=headers,
         json=data,
-        timeout=time_out,
+        timeout=timeout,
         return_json=True
     )
 
@@ -361,7 +361,7 @@ def ad_get_account_and_balance_list(
         cookie: str,
         page: int = 1,
         limit: int = 10,  # limit范围：[1,50]
-        time_out: int = 5
+        timeout: int = 5
 ):
     url = "https://ad.oceanengine.com/platform/api/v1/bp/multi_accounts/get_account_and_balance_list/?page=%s&limit=%s" % \
                   (page, limit)
@@ -372,11 +372,11 @@ def ad_get_account_and_balance_list(
         "Cookie": cookie,
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
     }
-    return lazysdk.lazyrequests.lazy_requests(
+    return lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
-        timeout=time_out,
+        timeout=timeout,
         return_json=True
     )
 
@@ -415,7 +415,7 @@ def ad_overture_discount(
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
         "x-requested-with": "XMLHttpRequest"
     }
-    return lazysdk.lazyrequests.lazy_requests(
+    return lazyrequests.lazy_requests(
         method=method,
         url=url,
         headers=headers,
@@ -458,7 +458,7 @@ def notification_msg_list(
         "upgrade-insecure-requests": "1",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0",
     }
-    return lazysdk.lazyrequests.lazy_requests(
+    return lazyrequests.lazy_requests(
         method=method,
         url=url,
         headers=headers,
