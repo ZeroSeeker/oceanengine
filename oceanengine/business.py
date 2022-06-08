@@ -11,7 +11,74 @@ from lazysdk import lazytime
 import datetime
 
 
-def business_bm_user_global_var(
+def user_login_status(
+        cookie: str,
+        csrf_token: str = None,  # 非必传字段
+        timeout: int = 5
+):
+    """
+    大账号 检验登录状态，code参数为0是登录状态正常
+    包含UserId参数
+    :param cookie: cookie
+    :param csrf_token: csrf_token
+    :param timeout: 超时时间
+
+    成功返回：
+        {
+            'code': 0,
+            'data': {
+                'CoreUser': {
+                    'UserId': '...'
+                },
+                'FushenUser': {
+                    'Staff': {}
+                },
+                'LoginType': 0,
+                'Advertiser': {
+                    'Id': ''
+                }
+            },
+            'extra': {},
+            'msg': '',
+            'request_id': '...'
+        }
+
+    失败返回：
+        {
+            'code': 40001,
+            'data': {},
+            'extra': {
+                'redirect_url': 'https: //business.oceanengine.com/site/login'
+            },
+            'msg': '未登录',
+            'request_id': '...'
+        }
+
+    """
+    url = 'https://business.oceanengine.com/nbs/api/bm/user/login_status'
+    headers = {
+        "accept": "application/json, text/plain, */*",
+        "accept-encoding": "gzip, deflate",
+        "accept-language": "zh-CN,zh;q=0.9",
+        "cookie": cookie,
+        "referer": "https://business.oceanengine.com",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+    }
+    if csrf_token is not None:
+        headers['x-csrftoken'] = csrf_token
+    response = lazyrequests.lazy_requests(
+        method='GET',
+        url=url,
+        headers=headers,
+        timeout=timeout,
+        return_json=True
+    )
+    return response
+
+
+def bm_user_global_var(
         cookie: str,
         csrf_token: str,
         timeout: int = 5
@@ -91,73 +158,7 @@ def business_bm_user_global_var(
     return response
 
 
-def business_bm_user_login_status(
-        cookie: str,
-        csrf_token: str = None,  # 非必传字段
-        timeout: int = 5
-):
-    """
-    大账号
-    检验登录状态
-    成功返回：
-    {
-        'code': 0,
-        'data': {
-            'CoreUser': {
-                'UserId': '...'
-            },
-            'FushenUser': {
-                'Staff': {
 
-                }
-            },
-            'LoginType': 0,
-            'Advertiser': {
-                'Id': ''
-            }
-        },
-        'extra': {
-
-        },
-        'msg': '',
-        'request_id': '...'
-    }
-
-    失败返回：
-    {
-        'code': 40001,
-        'data': {
-
-        },
-        'extra': {
-            'redirect_url': 'https: //business.oceanengine.com/site/login'
-        },
-        'msg': '未登录',
-        'request_id': '...'
-    }
-
-    """
-    url = 'https://business.oceanengine.com/nbs/api/bm/user/login_status'
-    headers = {
-        "accept": "application/json, text/plain, */*",
-        "accept-encoding": "gzip, deflate",
-        "accept-language": "zh-CN,zh;q=0.9",
-        "cookie": cookie,
-        "referer": "https://business.oceanengine.com",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
-    }
-    if csrf_token is not None:
-        headers['x-csrftoken'] = csrf_token
-    response = lazyrequests.lazy_requests(
-        method='GET',
-        url=url,
-        headers=headers,
-        timeout=timeout,
-        return_json=True
-    )
-    return response
 
 
 def business_bm_user_id(
