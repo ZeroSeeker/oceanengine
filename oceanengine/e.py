@@ -6,7 +6,7 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
-import lazysdk
+from lazysdk import lazyrequests
 import json
 
 
@@ -59,7 +59,7 @@ def e_fund_report(
         'offset': offset,  # 后移位数
         'start_time': start_time,  # 开始日期 timestamp
     }
-    response = lazysdk.lazyrequests.lazy_requests(
+    response = lazyrequests.lazy_requests(
         method='POST',
         url=url,
         headers=headers,

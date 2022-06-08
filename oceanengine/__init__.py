@@ -6,9 +6,6 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
-from .ad import *
-from .business import *
-from .e import *
 from . import business
 from . import ad
 from . import e
