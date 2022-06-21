@@ -1,5 +1,6 @@
 # oceanengine
 ![](https://img.shields.io/badge/Python-3.8.6-green.svg)
+![](https://img.shields.io/badge/lazysdk-0.0.12-blue.svg)
 
 #### 介绍
 巨量引擎接口封装工具集
