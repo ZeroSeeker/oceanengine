@@ -6,7 +6,7 @@
 @ GitHub : https://github.com/ZeroSeeker
 @ Gitee : https://gitee.com/ZeroSeeker
 """
-import requests
+from lazysdk import lazyrequests
 import json
 
 
@@ -53,8 +53,12 @@ def get_token(
         "grant_type": "auth_code",
         "auth_code": auth_code
     }
-    response = requests.post(url=url, json=data)
-    return response.json()
+    return lazyrequests.lazy_requests(
+        method='POST',
+        url=url,
+        json=data,
+        return_json=True
+    )
 
 
 def get_refresh_token(
@@ -89,8 +93,12 @@ def get_refresh_token(
         "grant_type": "refresh_token",
         "refresh_token": refresh_token
     }
-    response = requests.post(url=url, json=data)
-    return response.json()
+    return lazyrequests.lazy_requests(
+        method='POST',
+        url=url,
+        json=data,
+        return_json=True
+    )
 
 
 def get_user_info(
@@ -129,18 +137,18 @@ def get_user_info(
         pass
     else:
         headers['X-Debug-Mode '] = debug_mode
-    response = requests.request(
+    return lazyrequests.lazy_requests(
         method='GET',
         url=url,
-        headers=headers
+        headers=headers,
+        return_json=True
     )
-    return response.json()
 
 
 def get_advertiser(
+        access_token: str,
         app_id: int,
-        secret: str,
-        access_token: str
+        secret: str
 ):
     """
     Token管理-获取已授权账户
@@ -150,9 +158,9 @@ def get_advertiser(
 
     CUSTOMER_OPERATOR：账户角色-协作者授权的纵横组织，对应账户管理文档见：https://open.oceanengine.com/labels/7/docs/1696710519122956
 
+    :param access_token: 授权access_token，可以通过获取Access token接口获取
     :param app_id: 开发者申请的应用APP_ID，可通过“应用管理”界面查看
     :param secret: 开发者应用的私钥Secret，可通过“应用管理”界面查看（确保填入secret与app_id对应以免报错！）
-    :param access_token: 授权access_token，可以通过获取Access token接口获取
 
     成功返回：
         {
@@ -189,12 +197,12 @@ def get_advertiser(
         "secret": secret,
         "access_token": access_token
     }
-    response = requests.request(
+    return lazyrequests.lazy_requests(
         method='GET',
         url=url,
-        json=data
+        json=data,
+        return_json=True
     )
-    return response.json()
 
 
 def get_app_access_token(
@@ -221,13 +229,13 @@ def get_app_access_token(
         "app_id": app_id,
         "secret": secret,
     }
-    response = requests.request(
+    return lazyrequests.lazy_requests(
         method='POST',
         url=url,
         json=data,
-        headers=headers
+        headers=headers,
+        return_json=True
     )
-    return response.json()
 
 
 def get_agent_advertiser(
@@ -278,13 +286,13 @@ def get_agent_advertiser(
     if count is not None:
         params['count'] = count
 
-    response = requests.request(
+    return lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
-        params=params
+        params=params,
+        return_json=True
     )
-    return response.json()
 
 
 def get_advertiser_info(
@@ -327,14 +335,13 @@ def get_advertiser_info(
         'advertiser_ids': advertiser_ids,
         'fields': fields
     }
-
-    response = requests.request(
+    return lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
-        params=params
+        params=params,
+        return_json=True
     )
-    return response.json()
 
 
 def get_report_agent_v2(
@@ -374,13 +381,13 @@ def get_report_agent_v2(
         'start_date': start_date,
         'end_date': end_date
     }
-    response = requests.request(
+    return lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
-        params=params
+        params=params,
+        return_json=True
     )
-    return response.json()
 
 
 def get_customer_center_advertiser_list(
@@ -444,13 +451,13 @@ def get_customer_center_advertiser_list(
         params['page'] = page
     if page_size is not None:
         params['page_size'] = page_size
-    response = requests.request(
+    return lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
-        params=params
+        params=params,
+        return_json=True
     )
-    return response.json()
 
 
 def get_report_advertiser(
@@ -558,10 +565,10 @@ def get_report_advertiser(
         params['page'] = page
     if page_size is not None:
         params['page_size'] = page_size
-    response = requests.request(
+    return lazyrequests.lazy_requests(
         method='GET',
         url=url,
         headers=headers,
-        params=params
+        params=params,
+        return_json=True
     )
-    return response.json()
