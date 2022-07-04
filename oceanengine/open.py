@@ -572,3 +572,91 @@ def get_report_advertiser(
         params=params,
         return_json=True
     )
+
+
+def get_report_ad(
+        access_token: str,
+
+        advertiser_id: int,
+        start_date: str,
+        end_date: str,
+        fields: list = None,
+        group_by: list = None,
+        time_granularity: str = None,
+        filtering: json = None,
+        order_field: str = None,
+        order_type: str = None,
+
+        page: int = None,
+        page_size: int = None,
+
+        debug_mode: int = None
+):
+    """
+    数据报表-广告数据报表-广告计划数据
+    此接口用于获取广告计划纬度的投放数据，包括消耗、点击、展示等指标，具体可以参考应答参数指标说明
+    参考文档：https://open.oceanengine.com/labels/7/docs/1696710551666703
+
+    :param access_token: 授权access-token，获取方法见接口文档【获取Access-Token】
+
+    :param advertiser_id: 广告主ID
+    :param start_date: 起始日期,格式YYYY-MM-DD,只支持查询2016-10-26及以后的日期
+    :param end_date: 结束日期,格式YYYY-MM-DD,只支持查询2016-10-26及以后的日期，时间跨度不能超过30天
+    :param fields: 指定需要的指标名称，可参考应答参数返回的消耗指标字段 默认值：cost、show、avg_show_cost、click、ctr、avg_click_cost、convert、convert_rate、convert_cost
+    :param group_by: 分组条件 默认为STAT_GROUP_BY_FIELD_STAT_TIME，支持多种分组条件，具体详见【分组组合规则】
+    :param time_granularity: 时间粒度 默认值: STAT_TIME_GRANULARITY_DAILY 允许值:STAT_TIME_GRANULARITY_DAILY (按天维度),STAT_TIME_GRANULARITY_HOURLY (按小时维度)
+    :param filtering: 过滤字段，json格式，支持字段如下
+    :param order_field: 排序字段，所有的统计指标均可参与排序
+    :param order_type: 排序方式；默认值: DESC；允许值: ASC, DESC
+
+    :param page: 页码 默认值: 1
+    :param page_size: 页面大小，即每页展示的数据量 默认值: 20 取值范围: 1-1000
+
+    :param debug_mode: 允许值：1（开启）；Debugger模式仅适用于接口测试使用（不适合线上生产环境），目前频控限制为20次/分钟，建议在遇到调用接口报错后，在header中传入此段，以获取错误help message。
+
+    数据更新频率
+        数据5～10分钟更新一次
+        一般历史数据都不会变，除了数据有问题有校对的情况会更新历史数据，第二天10点可以获取前一天稳定的消耗数据
+
+    成功返回：
+
+    失败返回：
+
+
+    """
+    url = "https://ad.oceanengine.com/open_api/2/report/ad/get/"
+    headers = {
+        'Access-Token': access_token
+    }
+    if debug_mode is None:
+        pass
+    else:
+        headers['X-Debug-Mode '] = debug_mode
+    params = {
+        'advertiser_id': advertiser_id,
+        'start_date': start_date,
+        'end_date': end_date
+    }
+    if fields is not None:
+        params['fields'] = fields
+    if group_by is not None:
+        params['group_by'] = group_by
+    if time_granularity is not None:
+        params['time_granularity'] = time_granularity
+    if filtering is not None:
+        params['filtering'] = filtering
+    if page is not None:
+        params['page'] = page
+    if page_size is not None:
+        params['page_size'] = page_size
+    if order_field is not None:
+        params['order_field'] = order_field
+    if order_type is not None:
+        params['order_type'] = order_type
+    return lazyrequests.lazy_requests(
+        method='GET',
+        url=url,
+        headers=headers,
+        params=params,
+        return_json=True
+    )
