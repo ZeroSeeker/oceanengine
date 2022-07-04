@@ -240,12 +240,14 @@ def get_app_access_token(
 
 def get_agent_advertiser(
         access_token: str,
+
         advertiser_id: int,
         page: int = None,
         page_size: int = None,
         cursor: str = None,
         count: int = None,
-        debug_mode: int = None
+
+        debug_mode: str = None
 ):
     """【不完善】
     账号服务-代理商账号管理-代理商管理账户列表
@@ -297,9 +299,11 @@ def get_agent_advertiser(
 
 def get_advertiser_info(
         access_token: str,
+
         advertiser_ids: list=None,
         fields: list = None,
-        debug_mode: int = None
+
+        debug_mode: str = None
 ):
     """【不完善】
     账号服务-广告主信息与资质管理-广告主信息
@@ -346,10 +350,12 @@ def get_advertiser_info(
 
 def get_report_agent_v2(
         access_token: str,
+
         agent_id: int,
         start_date: str,
         end_date: str,
-        debug_mode: int = None
+
+        debug_mode: str = None
 ):
     """【不完善】
     数据报表-广告数据报表-广告主数据
@@ -392,11 +398,13 @@ def get_report_agent_v2(
 
 def get_customer_center_advertiser_list(
         access_token: str,
+
         cc_account_id: int,
         account_source: str = None,
         page: int = None,
         page_size: int = None,
-        debug_mode: int = None
+
+        debug_mode: str = None
 ):
     """
     账号服务-纵横组织账户管理-获取纵横组织下资产账户列表（分页）
@@ -466,14 +474,14 @@ def get_report_advertiser(
         advertiser_id: int,
         start_date: str,
         end_date: str,
-        fields: list = None,
-        group_by: list = None,
+        fields: str = None,
+        group_by: str = None,
         time_granularity: str = None,
         filtering: json = None,
         page: int = None,
         page_size: int = None,
 
-        debug_mode: int = None
+        debug_mode: str = None
 ):
     """
     数据报表-广告数据报表-广告主数据
@@ -580,8 +588,8 @@ def get_report_ad(
         advertiser_id: int,
         start_date: str,
         end_date: str,
-        fields: list = None,
-        group_by: list = None,
+        fields: str = None,
+        group_by: str = None,
         time_granularity: str = None,
         filtering: json = None,
         order_field: str = None,
@@ -590,7 +598,7 @@ def get_report_ad(
         page: int = None,
         page_size: int = None,
 
-        debug_mode: int = None
+        debug_mode: str = None
 ):
     """
     数据报表-广告数据报表-广告计划数据
