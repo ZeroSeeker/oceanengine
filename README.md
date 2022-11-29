@@ -1,9 +1,9 @@
 # oceanengine
 ![](https://img.shields.io/badge/Python-3.8.6-green.svg)
-![](https://img.shields.io/badge/lazysdk-0.0.12-blue.svg)
+![](https://img.shields.io/badge/lazysdk-0.0.21-blue.svg)
 
 #### 介绍
-巨量引擎接口封装工具集
+巨量引擎接口封装工具集，含广告回传功能
 
 巨量各系统地址：
 ```text
@@ -26,6 +26,8 @@ DOU+ https://doujia.douyin.com/delivery?dou_plus_compaign_name=DOU%2B+id%3A+5819
 #### 软件架构
 - oceanengine.ad
   - 说明：host为 ad.oceanengine.com 的接口
+- oceanengine.ad_postback
+  - 说明：广告回传功能封装
 - oceanengine.business
   - 说明：host为 business.oceanengine.com 的接口
 - oceanengine.e
