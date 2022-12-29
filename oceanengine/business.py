@@ -160,7 +160,6 @@ def bm_user_global_var(
 
 
 
-
 def business_bm_user_id(
         cookie: str,
         csrf_token: str,
@@ -169,7 +168,7 @@ def business_bm_user_id(
     """
     直接获取user_id
     """
-    bm_user_login_status_res = business_bm_user_login_status(
+    bm_user_login_status_res = user_login_status(
         cookie=cookie,
         csrf_token=csrf_token,
         timeout=timeout
