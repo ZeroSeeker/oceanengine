@@ -2,6 +2,7 @@
 # coding = utf8
 # 巨量创意相关
 import requests
+import json
 
 
 def creative_radar_api__v1__video__info(
@@ -14,7 +15,7 @@ def creative_radar_api__v1__video__info(
     :param mid: 例如 7100000000003973
     """
     url = 'https://cc.oceanengine.com/creative_radar_api/v1/video/info'
-    data = {
+    payload = {
         "video_infos": [
             {
                 "vid": vid,
@@ -42,7 +43,10 @@ def creative_radar_api__v1__video__info(
     response = requests.request(
         method='POST',
         url=url,
-        json=data,
+        data=json.dumps(payload),
         headers=headers
     )
-    return response.json()
+    try:
+        return response.json()
+    except:
+        return {'code': -1, 'msg': response.text}
