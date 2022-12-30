@@ -101,11 +101,3 @@ def creative_radar_api__v1__video__item_info(
         return response.json()
     except:
         return {'code': -1, 'msg': response.text}
-
-
-if __name__ == '__main__':
-    res = creative_radar_api__v1__video__item_info(
-        vid='v02033g10000cemjujjc77u1jd0n55l0',
-        item_id='7179848977684168762'
-    )
-    print(res)
