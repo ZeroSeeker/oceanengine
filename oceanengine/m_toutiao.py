@@ -2,6 +2,38 @@
 # coding = utf8
 # 手机头条香相关
 import requests
+import re
+
+
+def get_redirect_item_id(
+        url
+):
+    """
+    获取分享链接重定向后的item_id
+    """
+    headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+        "Connection": "keep-alive",
+        "Host": "m.toutiaocdn.com",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "TE": "trailers",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1"
+    }
+    response = requests.request(
+        method='GET',
+        url=url,
+        headers=headers,
+        allow_redirects=False
+    )
+    redirect_url = response.headers.get('Location')
+    item_id = re.findall(r'article/(.*?)/', redirect_url, re.S)[0]
+    return item_id
 
 
 def info_v2(
