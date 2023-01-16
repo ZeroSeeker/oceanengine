@@ -147,3 +147,46 @@ def send_request_quick_app_v2(
     )
     return response
 
+
+def track_activate_api(
+        request_params: dict,  # 全部参数的值要转换为数值
+        request_url: str = "https://ad.oceanengine.com/track/activate/"  # 上报数据的接口
+):
+    """
+    API回传，是当前推荐的回传路径
+
+    回传文档：https://open.oceanengine.com/doc/index.html?key=ad&type=api&id=1696710647473167
+    付费2回传文档：https://bytedance.feishu.cn/docx/doxcn67a0aRrOBOuX0pRYP1D86d
+    request_params：
+        callback
+        os
+        event_type
+        props
+        pay_amount
+
+    request_url="https://ad.oceanengine.com/track/activate/"
+    request_params={
+        "callback": "EJiw267wvf*************NTczNTBIAQ==",
+        "imei": "0c2*************e70e",  # 可不传
+        "os": "1",  # 可不传
+        "event_type": 2,  # 转化类型，2：付费1 | 392：付费2
+        "conv_time": str(int(time.time())),  # 转化时间
+        "link": 'https://www.chengzijianzhan.com/tetris/page/69794**********************vetype=1'  # 落地页地址
+    }
+    付费1（event type=2）及付费2事件（event type=392）需通过props增加付费金额字段
+
+    其中的link必填
+    回传参数说明：https://open.oceanengine.com/doc/index.html?key=ad&type=api&id=1696710647473167
+        link （必填），拼接了参数的落地页链接
+        event_type（必填回传参数）：2 付费
+        conv_time：int（整型）建议填写（填写付费时间）
+        source：string（字符串）建议填写（不填）
+
+    但是说明文档说的用ip+ua匹配后直接用回调地址回传，文档见：https://bytedance.feishu.cn/docs/doccnOaxIYGeXokJUqHJGhm86Xf
+    """
+    return lazyrequests.lazy_requests(
+        method='GET',
+        url=request_url,
+        params=request_params,
+        return_json=True
+    )
