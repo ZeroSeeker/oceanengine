@@ -171,7 +171,7 @@ def track_activate_api(
         "os": "1",  # 可不传
         "event_type": 2,  # 转化类型，2：付费1 | 392：付费2
         "conv_time": str(int(time.time())),  # 转化时间
-        "link": 'https://www.chengzijianzhan.com/tetris/page/69794**********************vetype=1'  # 落地页地址
+        "link": 'https://www.chengzijianzhan.com/tetris/page/69794**********************vetype=1'  # 落地页地址（含头条下发的参数）
     }
     付费1（event type=2）及付费2事件（event type=392）需通过props增加付费金额字段
 
@@ -183,6 +183,9 @@ def track_activate_api(
         source：string（字符串）建议填写（不填）
 
     但是说明文档说的用ip+ua匹配后直接用回调地址回传，文档见：https://bytedance.feishu.cn/docs/doccnOaxIYGeXokJUqHJGhm86Xf
+
+    event_type【必须回传】
+    
     """
     return lazyrequests.lazy_requests(
         method='GET',
