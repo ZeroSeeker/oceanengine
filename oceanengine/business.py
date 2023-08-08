@@ -158,8 +158,6 @@ def bm_user_global_var(
     return response
 
 
-
-
 def business_bm_user_id(
         cookie: str,
         csrf_token: str,
@@ -587,6 +585,132 @@ def bp_statistics_promote_advertiser_stats_list(
         "cascade_fields": cascade_fields,
         "stats_fields": stats_fields,
         "filter": filter_dict
+    }
+    response = lazyrequests.lazy_requests(
+        method='POST',
+        url=url,
+        headers=headers,
+        json=data,
+        timeout=timeout,
+        return_json=True
+    )
+    return response
+
+
+def bp_promotion_ad_get_account_list(
+        cookie: str,
+        csrf_token: str,
+        page: int = 1,
+        page_size: int = 10,
+        timeout: int = 5,
+        start_date: str = None,
+        end_date: str = None,
+        order_field: str = 'stat_cost',
+        order_type: int = 1
+):
+    """
+    主账号
+    【推广】-【巨量广告】-【账户】
+    :param cookie:
+    :param csrf_token:
+    :param page: 页码，默认为1
+    :param page_size: 每页数量，默认为10，可选10，20，50，100
+    :param timeout: 超时时间，单位为秒，默认为5
+    :param start_date: 开始日期，默认为当日0点，例如：2022-03-21
+    :param end_date: 结束日期，默认为次日0点，例如：2022-03-22
+    :param order_field: 排序列，默认为stat_cost，默认按照消耗排序
+    :param order_type: 排序方式：0:升序，1:降序；默认为1，降序
+    """
+
+    if start_date:
+        start_time = lazytime.get_date2timestamp(date=start_date)
+    else:
+        start_time = lazytime.get_date2timestamp(date=lazytime.get_date_string(-1))
+
+    if end_date:
+        end_time = lazytime.get_date2timestamp(date=end_date) + 86400
+    else:
+        end_time = lazytime.get_date2timestamp(date=lazytime.get_date_string(0))
+
+    url = "https://business.oceanengine.com/nbs/api/bm/promotion/ad/get_account_list"
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Cookie": cookie,
+        "Host": "business.oceanengine.com",
+        "Origin": "https://business.oceanengine.com",
+        "Referer": "https://business.oceanengine.com/site/promotion/ad/superior/account",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "TE": "trailers",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0",
+        "x-csrf-token": csrf_token,
+    }
+    data = {
+        "offset": page,
+        "limit": page_size,
+        "order_type": order_type,
+        "order_field": order_field,
+        "fields": [
+            "convert_cnt",
+            "conversion_cost",
+            "conversion_rate",
+            "deep_convert_cnt",
+            "deep_convert_cost",
+            "deep_convert_rate",
+            "stat_cost",
+            "show_cnt",
+            "cpm_platform",
+            "click_cnt",
+            "ctr",
+            "cpc_platform"
+        ],
+        "cascade_metrics": [
+            "advertiser_followed",
+            "advertiser_name",
+            "advertiser_id",
+            "advertiser_status",
+            "advertiser_budget",
+            "advertiser_remark",
+            "advertiser_balance",
+            "advertiser_valid_balance"
+        ],
+        "filter": {
+            "group": {
+
+            },
+            "advertiser": {
+
+            },
+            "campaign": {
+
+            },
+            "ad": {
+
+            },
+            "project": {
+
+            },
+            "promotion": {
+
+            },
+            "search": {
+                "keyword": "",
+                "searchType": 0,
+                "queryType": "phrase"
+            },
+            "pricingCategory": [
+                2
+            ]
+        },
+        "account_type": 0,
+        "platform_version": "2.0",
+        "start_time": start_time,
+        "end_time": end_time
     }
     response = lazyrequests.lazy_requests(
         method='POST',
