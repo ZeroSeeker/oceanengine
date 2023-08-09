@@ -9,6 +9,7 @@
 from lazysdk import lazyrequests
 from lazysdk import lazytime
 import datetime
+from urllib import parse
 
 
 def user_login_status(
@@ -621,6 +622,11 @@ def bp_promotion_ad_get_account_list(
     :param order_field: 排序列，默认为stat_cost，默认按照消耗排序
     :param order_type: 排序方式：0:升序，1:降序；默认为1，降序
     """
+    # ------------------ 标准过程 ------------------
+    cookie = parse.unquote(cookie.replace('+', '%20'))  # 处理解码
+    if not csrf_token:
+        csrf_token = lazyrequests.cookie_2_dict(cookie_str=cookie).get('csrftoken')
+    # ------------------ 标准过程 ------------------
 
     if start_date:
         start_time = lazytime.get_date2timestamp(date=start_date)
@@ -631,9 +637,6 @@ def bp_promotion_ad_get_account_list(
         end_time = lazytime.get_date2timestamp(date=end_date) + 86400
     else:
         end_time = lazytime.get_date2timestamp(date=lazytime.get_date_string(0))
-
-    if not csrf_token:
-        csrf_token = lazyrequests.cookie_2_dict(cookie_str=cookie).get('csrftoken')
 
     url = "https://business.oceanengine.com/nbs/api/bm/promotion/ad/get_account_list"
     headers = {
