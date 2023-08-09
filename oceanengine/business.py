@@ -599,7 +599,7 @@ def bp_statistics_promote_advertiser_stats_list(
 
 def bp_promotion_ad_get_account_list(
         cookie: str,
-        csrf_token: str,
+        csrf_token: str = None,
         page: int = 1,
         page_size: int = 10,
         timeout: int = 5,
@@ -632,6 +632,9 @@ def bp_promotion_ad_get_account_list(
     else:
         end_time = lazytime.get_date2timestamp(date=lazytime.get_date_string(0))
 
+    if not csrf_token:
+        csrf_token = lazyrequests.cookie_2_dict(cookie_str=cookie).get('csrftoken')
+
     url = "https://business.oceanengine.com/nbs/api/bm/promotion/ad/get_account_list"
     headers = {
         "Accept": "application/json, text/plain, */*",
@@ -648,7 +651,7 @@ def bp_promotion_ad_get_account_list(
         "Sec-Fetch-Site": "same-origin",
         "TE": "trailers",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0",
-        "x-csrf-token": csrf_token,
+        "x-csrftoken": csrf_token,
     }
     data = {
         "offset": page,
