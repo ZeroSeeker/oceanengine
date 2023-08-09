@@ -712,8 +712,8 @@ def bp_promotion_ad_get_account_list(
         },
         "account_type": 0,
         "platform_version": "2.0",
-        "start_time": start_time,
-        "end_time": end_time
+        "start_time": str(start_time),
+        "end_time": str(end_time)
     }
     response = lazyrequests.lazy_requests(
         method='POST',
