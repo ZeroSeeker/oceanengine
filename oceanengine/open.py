@@ -668,3 +668,77 @@ def get_report_ad(
         params=params,
         return_json=True
     )
+
+
+def get_business_platform_company_account(
+        access_token: str,
+
+        organization_id: int,
+        company_id: int,
+        account_type: str,
+
+        page: int = 1,
+        page_size: int = 10,
+):
+    """
+    获取主体下的账户列表
+    参考文档：https://open.oceanengine.com/labels/7/docs/1741479196149775
+
+    :param access_token: 授权access-token，获取方法见接口文档【获取Access-Token】
+
+    :param organization_id: 纵横组织ID
+    :param company_id: 公司主体ID
+    :param account_type: 账户类型，允许值：AD 巨量广告账户、QIANCHUAN 千川广告账户
+
+    :param page: 页码 默认值: 1
+    :param page_size: 页面大小，即每页展示的数据量 默认值: 20 取值范围: 1-1000
+
+    """
+    url = "https://api.oceanengine.com/open_api/v3.0/business_platform/company_account/get/"
+    headers = {
+        'Access-Token': access_token
+    }
+    params = {
+        'organization_id': organization_id,
+        'company_id': company_id,
+        'account_type': account_type,
+        'page': page,
+        'page_size': page_size
+    }
+    return lazyrequests.lazy_requests(
+        method='GET',
+        url=url,
+        headers=headers,
+        params=params,
+        return_json=True
+    )
+
+
+def get_majordomo_advertiser(
+        access_token: str,
+
+        advertiser_id: str
+):
+    """
+    获取纵横组织下资产账户列表
+    参考文档：https://open.oceanengine.com/labels/7/docs/1696710519607296
+
+    :param access_token: 授权access-token，获取方法见接口文档【获取Access-Token】
+
+    :param advertiser_id: 纵横组织id
+
+    """
+    url = "https://ad.oceanengine.com/open_api/2/majordomo/advertiser/select/"
+    headers = {
+        'Access-Token': access_token
+    }
+    params = {
+        'advertiser_id': advertiser_id,
+    }
+    return lazyrequests.lazy_requests(
+        method='GET',
+        url=url,
+        headers=headers,
+        params=params,
+        return_json=True
+    )
