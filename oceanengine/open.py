@@ -742,3 +742,56 @@ def get_majordomo_advertiser(
         params=params,
         return_json=True
     )
+
+
+def get_report_custom_stat_cost(
+        access_token: str,
+        advertiser_id: str,
+        start_time: str,
+        end_time: str,
+        version: str = 'v3.0'
+):
+    """
+    获取自定义报表中的广告主消耗
+    参考文档：https://open.oceanengine.com/labels/7/docs/1741387668314126
+
+    :param access_token: 授权access-token，获取方法见接口文档【获取Access-Token】
+
+    :param advertiser_id: 广告主id
+    :param start_time: 开始时间。格式为：yyyy-MM-dd。例如2022-08-01
+    :param end_time: 结束时间。格式为：yyyy-MM-dd。例如2022-08-01
+    :param version: api版本，默认
+
+    """
+    url = f"https://api.oceanengine.com/open_api/{version}/report/custom/get/"
+    headers = {
+        'Access-Token': access_token
+    }
+    params = {
+        "dimensions": [],
+        "advertiser_id": advertiser_id,
+        "metrics": [
+            "stat_cost"
+        ],
+        "filters": [],
+        "start_time": start_time,
+        "end_time": end_time,
+        "order_by": [
+            {
+                "field": "stat_cost",
+                "type": "DESC"
+            }
+        ],
+        "page": 1,
+        "page_size": 10,
+        "data_topic": "BASIC_DATA"
+    }
+    response = lazyrequests.lazy_requests(
+        method='GET',
+        url=url,
+        headers=headers,
+        params=params,
+        return_json=True
+    )
+    if response['code'] == 0:
+        return response['data']['total_metrics']['stat_cost']
