@@ -749,10 +749,12 @@ def get_report_custom_stat_cost(
         advertiser_id: str,
         start_time: str,
         end_time: str,
-        version: str = 'v3.0'
+        page: int = 1,
+        page_size: int = 10
 ):
     """
     获取自定义报表中的广告主消耗
+    按日分
     参考文档：https://open.oceanengine.com/labels/7/docs/1741387668314126
 
     :param access_token: 授权access-token，获取方法见接口文档【获取Access-Token】
@@ -760,30 +762,29 @@ def get_report_custom_stat_cost(
     :param advertiser_id: 广告主id
     :param start_time: 开始时间。格式为：yyyy-MM-dd。例如2022-08-01
     :param end_time: 结束时间。格式为：yyyy-MM-dd。例如2022-08-01
-    :param version: api版本，默认
+    :param page: 页码，默认为1
+    :param page_size: 单页数量，最大100
 
     """
-    url = f"https://api.oceanengine.com/open_api/{version}/report/custom/get/"
+    url = f"https://api.oceanengine.com/open_api/v3.0/report/custom/get/"
     headers = {
         'Access-Token': access_token
     }
     params = {
-        "dimensions": [],
+        "dimensions": json.dumps(["stat_time_day"]),  # 分日
         "advertiser_id": advertiser_id,
-        "metrics": [
-            "stat_cost"
-        ],
-        "filters": [],
+        "metrics": json.dumps(["stat_cost"]),
+        "filters": json.dumps([]),
         "start_time": start_time,
         "end_time": end_time,
-        "order_by": [
+        "order_by": json.dumps([
             {
                 "field": "stat_cost",
                 "type": "DESC"
             }
-        ],
-        "page": 1,
-        "page_size": 10,
+        ]),
+        "page": page,
+        "page_size": page_size,
         "data_topic": "BASIC_DATA"
     }
     response = lazyrequests.lazy_requests(
@@ -794,4 +795,12 @@ def get_report_custom_stat_cost(
         return_json=True
     )
     if response['code'] == 0:
-        return response['data']['total_metrics']['stat_cost']
+        data_rows = response['data']['rows']
+        res = list()
+        for each_data in data_rows:
+            stat_time_day = each_data['dimensions']['stat_time_day']
+            stat_cost = each_data['metrics']['stat_cost']
+            res.append({'stat_time_day': stat_time_day, 'stat_cost': stat_cost})
+        return {'code': 0, 'data': res}
+    else:
+        return response
