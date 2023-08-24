@@ -750,7 +750,8 @@ def get_report_custom_stat_cost(
         start_time: str,
         end_time: str,
         page: int = 1,
-        page_size: int = 10
+        page_size: int = 10,
+        timeout: int = 2
 ):
     """
     获取自定义报表中的广告主消耗
@@ -764,6 +765,7 @@ def get_report_custom_stat_cost(
     :param end_time: 结束时间。格式为：yyyy-MM-dd。例如2022-08-01
     :param page: 页码，默认为1
     :param page_size: 单页数量，最大100
+    :param timeout: 超时时间，单位：秒
 
     """
     url = f"https://api.oceanengine.com/open_api/v3.0/report/custom/get/"
@@ -792,7 +794,8 @@ def get_report_custom_stat_cost(
         url=url,
         headers=headers,
         params=params,
-        return_json=True
+        return_json=True,
+        timeout=timeout
     )
     if response['code'] == 0:
         data_rows = response['data']['rows']
