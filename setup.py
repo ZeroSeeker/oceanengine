@@ -13,7 +13,7 @@ with open("README.md", "r", encoding='utf-8') as fh:
 
 setuptools.setup(
     name="oceanengine",
-    version="0.1.7",
+    version="0.1.8",
     author="ZeroSeeker",
     author_email="zeroseeker@foxmail.com",
     description="make it easy to use oceanengine",
@@ -27,8 +27,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'requests==2.27.1',
-        'showlog>=0.0.6',
-        'lazysdk>=0.1.44'
+        'lazysdk>=0.1.66'
     ]
 )
