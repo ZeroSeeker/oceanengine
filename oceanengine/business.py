@@ -10,6 +10,7 @@ from lazysdk import lazyrequests
 from lazysdk import lazytime
 import datetime
 from urllib import parse
+import re
 
 
 def user_login_status(
@@ -56,6 +57,8 @@ def user_login_status(
         }
 
     """
+    if not csrf_token:
+        csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)[0]
     url = 'https://business.oceanengine.com/nbs/api/bm/user/login_status'
     headers = {
         "accept": "application/json, text/plain, */*",
@@ -66,9 +69,8 @@ def user_login_status(
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+        "x-csrftoken": csrf_token
     }
-    if csrf_token is not None:
-        headers['x-csrftoken'] = csrf_token
     response = lazyrequests.lazy_requests(
         method='GET',
         url=url,
@@ -81,7 +83,7 @@ def user_login_status(
 
 def bm_user_global_var(
         cookie: str,
-        csrf_token: str,
+        csrf_token: str = None,
         timeout: int = 5
 ):
     """
@@ -132,6 +134,8 @@ def bm_user_global_var(
         'request_id': '...'
     }
     """
+    if not csrf_token:
+        csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)[0]
     url = 'https://business.oceanengine.com/nbs/api/bm/user/global_var/'
     headers = {
         "Accept": "application/json, text/plain, */*",
