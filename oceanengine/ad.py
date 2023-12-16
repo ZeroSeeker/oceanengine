@@ -614,3 +614,123 @@ def auto_rule_v2_create(
         JSONDecodeError_retry=JSONDecodeError_retry,
         ConnectionError_retry=ConnectionError_retry
     )
+
+
+def auto_rule_v2_list(
+        cookie,
+        aadvid,
+        page=1,
+        page_size=10,
+        timeout=5,
+        retry_delay: int = 1,  # 重试延时
+        retry_limit: int = -1,  # 重试次数限制，-1为无限制
+        return_json: bool = True,  # 是否返回json数据
+        ReadTimeout_retry: bool = True,  # 超时重试
+        JSONDecodeError_retry: bool = True,  # 返回非json类型重试
+        ConnectionError_retry: bool = True,  # 连接错误重试
+):
+    """
+    巨量引擎-工具-规则管理 获取规则列表
+    """
+    method = 'POST'
+    url = "https://ad.oceanengine.com/nbs/api/autorule/v2/list"
+    params = {
+        'aadvid': aadvid
+    }
+    data = {
+        "page": page,
+        "page_size": page_size
+    }
+    csrftoken = re.findall(r'csrftoken=(.*?);', cookie, re.S)[0]
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Cookie": cookie,
+        "Host": "ad.oceanengine.com",
+        "Origin": "https://ad.oceanengine.com",
+        "Pragma": "no-cache",
+        "Referer": f"https://ad.oceanengine.com/statistics_pages/tool_apps/auto_rules/rule_manage?aadvid={aadvid}",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0",
+        "X-CSRFToken": csrftoken
+    }
+    return lazyrequests.lazy_requests(
+        method=method,
+        url=url,
+        headers=headers,
+        params=params,
+        json=data,
+        timeout=timeout,
+
+        retry_delay=retry_delay,
+        retry_limit=retry_limit,
+        return_json=return_json,
+        ReadTimeout_retry=ReadTimeout_retry,
+        JSONDecodeError_retry=JSONDecodeError_retry,
+        ConnectionError_retry=ConnectionError_retry
+    )
+
+
+def auto_rule_v2_delete(
+        cookie,
+        aadvid,
+        rule_id: list,
+        timeout=5,
+        retry_delay: int = 1,  # 重试延时
+        retry_limit: int = -1,  # 重试次数限制，-1为无限制
+        return_json: bool = True,  # 是否返回json数据
+        ReadTimeout_retry: bool = True,  # 超时重试
+        JSONDecodeError_retry: bool = True,  # 返回非json类型重试
+        ConnectionError_retry: bool = True,  # 连接错误重试
+):
+    """
+    巨量引擎-工具-规则管理 删除规则
+    """
+    method = 'POST'
+    url = "https://ad.oceanengine.com/nbs/api/autorule/v2/delete"
+    params = {
+        'aadvid': aadvid
+    }
+    data = {
+        "rule_id": rule_id
+    }
+    csrftoken = re.findall(r'csrftoken=(.*?);', cookie, re.S)[0]
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Cookie": cookie,
+        "Host": "ad.oceanengine.com",
+        "Origin": "https://ad.oceanengine.com",
+        "Pragma": "no-cache",
+        "Referer": f"https://ad.oceanengine.com/statistics_pages/tool_apps/auto_rules/rule_manage?aadvid={aadvid}",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0",
+        "X-CSRFToken": csrftoken
+    }
+    return lazyrequests.lazy_requests(
+        method=method,
+        url=url,
+        headers=headers,
+        params=params,
+        json=data,
+        timeout=timeout,
+
+        retry_delay=retry_delay,
+        retry_limit=retry_limit,
+        return_json=return_json,
+        ReadTimeout_retry=ReadTimeout_retry,
+        JSONDecodeError_retry=JSONDecodeError_retry,
+        ConnectionError_retry=ConnectionError_retry
+    )
