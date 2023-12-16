@@ -9,6 +9,14 @@
 from lazysdk import lazyrequests
 from lazysdk import lazytime
 import datetime
+import re
+default_headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.9",
+        "upgrade-insecure-requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0",
+    }
 
 
 def promote_ad_list(
@@ -461,6 +469,142 @@ def notification_msg_list(
         method=method,
         url=url,
         headers=headers,
+        timeout=timeout,
+
+        retry_delay=retry_delay,
+        retry_limit=retry_limit,
+        return_json=return_json,
+        ReadTimeout_retry=ReadTimeout_retry,
+        JSONDecodeError_retry=JSONDecodeError_retry,
+        ConnectionError_retry=ConnectionError_retry
+    )
+
+
+def auto_rule_v2_detail(
+        cookie,
+        aadvid,
+        rule_id,
+
+        timeout=5,
+        retry_delay: int = 1,  # 重试延时
+        retry_limit: int = -1,  # 重试次数限制，-1为无限制
+        return_json: bool = True,  # 是否返回json数据
+        ReadTimeout_retry: bool = True,  # 超时重试
+        JSONDecodeError_retry: bool = True,  # 返回非json类型重试
+        ConnectionError_retry: bool = True,  # 连接错误重试
+):
+    """
+    巨量引擎-工具-规则管理 获取规则详情
+    """
+    method = 'POST'
+    url = "https://ad.oceanengine.com/nbs/api/autorule/v2/detail"
+    params = {
+        'aadvid': aadvid
+    }
+    data = {
+        "rule_id": rule_id
+    }
+    csrftoken = re.findall(r'csrftoken=(.*?);', cookie, re.S)[0]
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Cookie": cookie,
+        "Host": "ad.oceanengine.com",
+        "Origin": "https://ad.oceanengine.com",
+        "Pragma": "no-cache",
+        "Referer": f"https://ad.oceanengine.com/statistics_pages/tool_apps/auto_rules/rule_manage?aadvid={aadvid}",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0",
+        "X-CSRFToken": csrftoken
+    }
+    return lazyrequests.lazy_requests(
+        method=method,
+        url=url,
+        headers=headers,
+        params=params,
+        json=data,
+        timeout=timeout,
+
+        retry_delay=retry_delay,
+        retry_limit=retry_limit,
+        return_json=return_json,
+        ReadTimeout_retry=ReadTimeout_retry,
+        JSONDecodeError_retry=JSONDecodeError_retry,
+        ConnectionError_retry=ConnectionError_retry
+    )
+
+
+def auto_rule_v2_create(
+        cookie,
+        aadvid,
+        # rule_id,
+        rule_info,
+
+        timeout=5,
+        retry_delay: int = 1,  # 重试延时
+        retry_limit: int = -1,  # 重试次数限制，-1为无限制
+        return_json: bool = True,  # 是否返回json数据
+        ReadTimeout_retry: bool = True,  # 超时重试
+        JSONDecodeError_retry: bool = True,  # 返回非json类型重试
+        ConnectionError_retry: bool = True,  # 连接错误重试
+):
+    """
+    巨量引擎-工具-规则管理 创建规则
+    """
+    method = 'POST'
+    url = "https://ad.oceanengine.com/nbs/api/autorule/v2/create"
+    params = {
+        'aadvid': aadvid
+    }
+    data = {
+        "rules": [
+            {
+                "applied_object": rule_info['data']['applied_object'],
+                "applied_range": rule_info['data']['applied_range'],
+                "object_ids": rule_info['data']['object_ids'],
+                "conditions": rule_info['data']['conditions'],
+                "rule_name": f"{rule_info['data']['rule_name']}_auto_copy_{lazytime.get_datetime()}",
+                "status": rule_info['data']['status'],
+                "is_notification": rule_info['data']['is_notification'],
+                "execute_time_type": rule_info['data']['execute_time_type'],
+                "execute_time": rule_info['data']['execute_time'],
+                "actions": rule_info['data']['actions'],
+                "account_type": rule_info['data']['account_type'],
+                "notificator": rule_info['data']['notificator']
+            }
+        ]
+    }
+    csrftoken = re.findall(r'csrftoken=(.*?);', cookie, re.S)[0]
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Cookie": cookie,
+        "Host": "ad.oceanengine.com",
+        "Origin": "https://ad.oceanengine.com",
+        "Pragma": "no-cache",
+        "Referer": f"https://ad.oceanengine.com/statistics_pages/tool_apps/auto_rules/rule_manage?aadvid={aadvid}",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0",
+        "X-CSRFToken": csrftoken
+    }
+    return lazyrequests.lazy_requests(
+        method=method,
+        url=url,
+        headers=headers,
+        params=params,
+        json=data,
         timeout=timeout,
 
         retry_delay=retry_delay,
