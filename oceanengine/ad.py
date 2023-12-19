@@ -545,6 +545,7 @@ def auto_rule_v2_create(
         aadvid,
         # rule_id,
         rule_info,
+        rule_name_limit: int = 50,
 
         timeout=5,
         retry_delay: int = 1,  # 重试延时
@@ -562,6 +563,9 @@ def auto_rule_v2_create(
     params = {
         'aadvid': aadvid
     }
+    copy_rule_name = f"{rule_info['data']['rule_name']}_auto_copy_{lazytime.get_datetime()}"
+    if len(copy_rule_name) > rule_name_limit:
+        copy_rule_name = copy_rule_name[0:rule_name_limit]
     data = {
         "rules": [
             {
@@ -569,7 +573,7 @@ def auto_rule_v2_create(
                 "applied_range": rule_info['data']['applied_range'],
                 "object_ids": rule_info['data']['object_ids'],
                 "conditions": rule_info['data']['conditions'],
-                "rule_name": f"{rule_info['data']['rule_name']}_auto_copy_{lazytime.get_datetime()}",
+                "rule_name": copy_rule_name,
                 "status": rule_info['data']['status'],
                 "is_notification": rule_info['data']['is_notification'],
                 "execute_time_type": rule_info['data']['execute_time_type'],
