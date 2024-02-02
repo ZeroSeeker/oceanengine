@@ -58,7 +58,9 @@ def user_login_status(
 
     """
     if not csrf_token:
-        csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)[0]
+        find_csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)
+        if find_csrf_token:
+            csrf_token = find_csrf_token[0]
     url = 'https://business.oceanengine.com/nbs/api/bm/user/login_status'
     headers = {
         "accept": "application/json, text/plain, */*",
@@ -68,9 +70,10 @@ def user_login_status(
         "referer": "https://business.oceanengine.com",
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
-        "x-csrftoken": csrf_token
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
     }
+    if csrf_token:
+        headers["x-csrftoken"] = csrf_token
     response = lazyrequests.lazy_requests(
         method='GET',
         url=url,
@@ -135,7 +138,9 @@ def bm_user_global_var(
     }
     """
     if not csrf_token:
-        csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)[0]
+        find_csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)
+        if find_csrf_token:
+            csrf_token = find_csrf_token[0]
     url = 'https://business.oceanengine.com/nbs/api/bm/user/global_var/'
     headers = {
         "Accept": "application/json, text/plain, */*",
@@ -150,9 +155,10 @@ def bm_user_global_var(
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
         "TE": "trailers",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0",
-        "x-csrftoken": csrf_token
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0"
     }
+    if csrf_token:
+        headers["x-csrftoken"] = csrf_token
     response = lazyrequests.lazy_requests(
         method='GET',
         url=url,
@@ -203,6 +209,10 @@ def business_bm_dashboard_accounts_list(
     大账号
     【首页】-【巨量广告详情】-【账户】-【全部巨量广告账户】
     """
+    if not csrf_token:
+        find_csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)
+        if find_csrf_token:
+            csrf_token = find_csrf_token[0]
     url = "https://business.oceanengine.com/nbs/api/bm/dashboard/accounts_list/?page=%s&limit=%s&app_key=0&search=" % \
           (page, limit)
     headers = {
@@ -217,9 +227,10 @@ def business_bm_dashboard_accounts_list(
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
         "TE": "trailers",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0",
-        "X-CSRFToken": csrf_token,
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0"
     }
+    if csrf_token:
+        headers["X-CSRFToken"] = csrf_token
     response = lazyrequests.lazy_requests(
         method='GET',
         url=url,
@@ -244,6 +255,10 @@ def business_bp_statistics_promote_ad_stats_list(
     主账号
     【巨量广告】-【推广】-【计划】
     """
+    if not csrf_token:
+        find_csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)
+        if find_csrf_token:
+            csrf_token = find_csrf_token[0]
     url = "https://business.oceanengine.com/platform/api/v1/bp/statistics/promote/ad/stats_list/"
     headers = {
         "Accept": "application/json, text/plain, */*",
@@ -258,9 +273,10 @@ def business_bp_statistics_promote_ad_stats_list(
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0",
-        "X-CSRFToken": csrf_token
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0"
     }
+    if csrf_token:
+        headers["X-CSRFToken"] = csrf_token
     data = {
         "start_time": str(start_time),
         "end_time": str(end_time),
@@ -629,7 +645,9 @@ def bp_promotion_ad_get_account_list(
     # ------------------ 标准过程 ------------------
     cookie = parse.unquote(cookie.replace('+', '%20'))  # 处理解码
     if not csrf_token:
-        csrf_token = lazyrequests.cookie_2_dict(cookie_str=cookie).get('csrftoken')
+        find_csrf_token = re.findall(r'csrftoken=(.*?);', cookie, re.S)
+        if find_csrf_token:
+            csrf_token = find_csrf_token[0]
     # ------------------ 标准过程 ------------------
 
     if start_date:
@@ -657,9 +675,10 @@ def bp_promotion_ad_get_account_list(
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
         "TE": "trailers",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0",
-        "x-csrftoken": csrf_token,
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0"
     }
+    if csrf_token:
+        headers["x-csrftoken"] = csrf_token
     data = {
         "offset": page,
         "limit": page_size,
